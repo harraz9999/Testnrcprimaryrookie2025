@@ -11,35 +11,44 @@ let startTime = 0;
 let elapsedTime = 0;
 let timerExpired = false;
 
-// Unlock audio function on first interaction
-function unlockAudio() {
+// Unlock audio once on first user interaction (silent unlock)
+document.body.addEventListener('click', function unlockOnce() {
   if (timeoutSound.paused) {
-    timeoutSound.play().then(() => timeoutSound.pause()).catch(() => {});
+    timeoutSound.play().then(() => {
+      timeoutSound.pause();
+      timeoutSound.currentTime = 0;
+    }).catch(() => {});
   }
-}
+  document.body.removeEventListener('click', unlockOnce);
+});
 
-// Disable all interactions when timer expires
+// enableInteractions and disableInteractions kept for future but disableInteractions NOT called
 function disableInteractions() {
   blocks.forEach(block => {
     block.style.pointerEvents = 'none';
     block.classList.add('disabled');
 
-    // Allow info buttons inside disabled blocks to remain clickable
     block.querySelectorAll('.info-button').forEach(infoBtn => {
       infoBtn.style.pointerEvents = 'auto';
+    });
+
+    block.querySelectorAll('button').forEach(btn => {
+      btn.disabled = true;
     });
   });
 }
 
-// Enable interactions on reset
 function enableInteractions() {
   blocks.forEach(block => {
     block.style.pointerEvents = 'auto';
     block.classList.remove('disabled');
 
-    // Ensure info buttons have normal pointer events
     block.querySelectorAll('.info-button').forEach(infoBtn => {
       infoBtn.style.pointerEvents = 'auto';
+    });
+
+    block.querySelectorAll('button').forEach(btn => {
+      btn.disabled = false;
     });
   });
 }
@@ -47,8 +56,7 @@ function enableInteractions() {
 // Prevent info button clicks from triggering block/timer behavior
 document.querySelectorAll('.info-button').forEach(infoBtn => {
   infoBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent bubbling so timer/count toggle not triggered
-    // You can add your info popup logic here if needed
+    e.stopPropagation();
   });
 });
 
@@ -57,12 +65,9 @@ document.querySelectorAll('.mission').forEach(mission => {
   const toggleBlocks = mission.querySelectorAll('.point-block.toggle');
   toggleBlocks.forEach(block => {
     block.addEventListener('click', () => {
-      if (timerExpired) return;
-
-      unlockAudio();
+      // Removed timerExpired check so toggles always clickable
 
       const isActive = block.classList.contains('active');
-
       toggleBlocks.forEach(b => b.classList.remove('active'));
 
       if (!isActive) {
@@ -70,8 +75,6 @@ document.querySelectorAll('.mission').forEach(mission => {
       }
 
       updateTotal();
-
-      // Removed startTimer() from here!
     });
   });
 });
@@ -84,36 +87,27 @@ document.querySelectorAll('.point-block.counter').forEach(block => {
   const max = parseInt(block.dataset.max) || 0;
 
   plus.addEventListener('click', (e) => {
-    if (timerExpired) return;
-
     e.preventDefault();
     e.stopPropagation();
 
-    unlockAudio();
-
     let count = parseInt(countElem.textContent) || 0;
 
-    const isM04 = block.classList.contains('m04');
-    if (isM04) {
+    if (block.classList.contains('m04')) {
       let totalM04 = 0;
       document.querySelectorAll('.point-block.counter.m04 .count').forEach(elem => {
         totalM04 += parseInt(elem.textContent) || 0;
       });
-      if (totalM04 >= 5) return; // limit total M04 count
+      if (totalM04 >= 5) return;
     }
 
     if (count < max) {
       countElem.textContent = ++count;
       block.classList.add('active');
       updateTotal();
-
-      // Removed startTimer() from here!
     }
   });
 
   minus.addEventListener('click', (e) => {
-    if (timerExpired) return;
-
     e.preventDefault();
     e.stopPropagation();
 
@@ -151,10 +145,9 @@ function resetScore() {
       if (countElem) countElem.textContent = '0';
     }
   });
+
   totalDisplay.textContent = '0';
-
   enableInteractions();
-
   resetTimer();
 }
 
@@ -168,7 +161,8 @@ function updateTimerDisplay() {
     timerDisplay.textContent = "TIME'S UP";
     timerDisplay.classList.add('timer-expired');
 
-    disableInteractions();
+    // No disabling interactions here
+    // disableInteractions(); 
 
     timeoutSound.play().catch(err => console.warn("Audio failed:", err));
     return;
@@ -179,7 +173,7 @@ function updateTimerDisplay() {
   timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 }
 
-// Countdown popup element (added once)
+// Countdown popup element
 const countdownPopup = document.createElement('div');
 countdownPopup.style.position = 'fixed';
 countdownPopup.style.top = '0';
@@ -223,7 +217,7 @@ function startTimer() {
 
   showCountdown(() => {
     startTime = Date.now();
-    updateTimerDisplay(); // immediate display update
+    updateTimerDisplay();
     timerInterval = setInterval(updateTimerDisplay, 1000);
   });
 }
@@ -244,14 +238,11 @@ function resetTimer() {
   timerDisplay.classList.remove('timer-expired');
 }
 
-// New code: Play button logic
-
-const playButton = document.getElementById('play-button');  // Add a button with id="play-button" in your HTML
+// Play button logic
+const playButton = document.getElementById('play-button');
 
 playButton.addEventListener('click', () => {
-  if (timerInterval || timerExpired) return;  // Prevent double start or start after expiration
-
-  unlockAudio();
+  if (timerInterval || timerExpired) return;
+  // unlockAudio();  <-- removed to avoid beep on button click
   startTimer();
 });
-
