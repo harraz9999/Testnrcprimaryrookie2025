@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <title>NrcPrimaryRookie2025</title>
+</head>
+<body>
+  <h1>Scoring Sheet - NRC 2025 Primary Rookie</h1>
+
+  <div class="missions-container">
+    <!-- Your missions here, unchanged -->
+    <!-- M01 -->
+    <div class="mission">
+      <div class="title">
+        M01 - Fuel the Rocket
+        <button class="info-btn" aria-label="Mission Info"
+        data-img="RocketFuelInfo.PNG"
+        data-alt="M01 - Fuel the Rocket">?</button>
+      </div>
+      <div class="mission-content">
+        <div class="image-container">
+          <img src="Rocketfuel.PNG" />
+        </div>
+        <div class="points-container">
+          <div class="point-block toggle" data-points="10">
+            10<br />Completely inside
+          </div>
+          <div class="point-block toggle" data-points="5">
+            5<br />Partly Inside
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M02 -->
+    <div class="mission">
+      <div class="title">
+        M02 - Launch The Rocket
+        <button class="info-btn" aria-label="Mission Info"
+    data-img="RocketInfo.PNG"
+    data-alt="M02 - Launch The Rocket">?</button>
+      </div>
+      <div class="mission-content">
+        <div class="image-container">
+          <img src="Rocket.PNG" />
+        </div>
+        <div class="points-container">
+          <div class="point-block toggle" data-points="15">
+            15<br />Beyond 2nd Red Marker
+          </div>
+          <div class="point-block toggle" data-points="5">
+            5<br />Beyond 1st Red Marker
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M03 -->
+    <div class="mission">
+      <div class="title">
+        M03 - Space Debris
+        <button class="info-btn" aria-label="Mission Info"
+    data-img="DebrisInfo.PNG"
+    data-alt="M03 - Space Debris">?</button>
+      </div>
+      <div class="mission-content">
+        <div class="image-container">
+          <img src="Debris.PNG" />
+        </div>
+        <div class="points-container">
+          <div class="point-block counter" data-points="10" data-max="3">
+            <div>Completely/Partly inside start area</div>
+            <div class="controls">
+              <button class="minus">-</button>
+              <span class="count">0</span>
+              <button class="plus">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M04 -->
+<div class="mission">
+  <div class="title">
+    M04 - Satellites
+    <button class="info-btn" aria-label="Mission Info"
+    data-img="SatellitesInfo.PNG"
+    data-alt="M04 - Satellites">?</button>
+  </div>
+  <div class="mission-content">
+    <div class="image-container">
+      <img src="Satellite.PNG" />
+    </div>
+    <div class="points-container">
+      <!-- First satellite counter -->
+      <div class="point-block counter m04" data-points="20" data-max="5">
+        <div>Completely Inside (Correct Colour)</div>
+        <div class="controls">
+          <button class="minus">-</button>
+          <span class="count">0</span>
+          <button class="plus">+</button>
+        </div>
+      </div>
+      <!-- Second satellite counter -->
+      <div class="point-block counter m04" data-points="5" data-max="5">
+        <div>Completely/Partly Inside (Wrong Colour)</div>
+        <div class="controls">
+          <button class="minus">-</button>
+          <span class="count">0</span>
+          <button class="plus">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- M05 -->
+    <div class="mission">
+      <div class="title">
+        M05 - Astronauts
+        <button class="info-btn" aria-label="Mission Info"
+    data-img="AstonautsInfo.PNG"
+    data-alt="M05 - Astronauts">?</button>
+      </div>
+      <div class="mission-content">
+        <div class="image-container">
+          <img src="Astronaut.PNG" />
+        </div>
+        <div class="points-container">
+          <div class="point-block counter" data-points="5" data-max="2">
+            <div>Astronauts Not Damaged and Not Touching Outside</div>
+            <div class="controls">
+              <button class="minus">-</button>
+              <span class="count">0</span>
+              <button class="plus">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M06 -->
+    <div class="mission">
+      <div class="title">
+        M06 - Barrier
+        <button class="info-btn" aria-label="Mission Info"
+    data-img="BarierInfo.PNG"
+    data-alt="M06 - Barrier">?</button>
+      </div>
+      <div class="mission-content">
+        <div class="image-container">
+          <img src="Barier.PNG" />
+        </div>
+        <div class="points-container">
+          <div class="point-block toggle" data-points="10">
+            10<br />Not Damaged & Not Touching Outside
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end .missions-container -->
+
+  <div class="footer">
+    <!-- Total Score on the left -->
+    <div class="score">
+      Total Score: <span id="total" class="score-value">0</span> / 175
+    </div>
+
+    <!-- Timer + Buttons on the right -->
+    <div class="controls-group">
+      <button onclick="resetScore()" aria-label="Reset Score">
+        <i class="fa fa-repeat" aria-hidden="true"></i>
+      </button>
+      <button onclick="startTimer()" aria-label="Start Timer">
+        <i class="fa fa-play" aria-hidden="true"></i>
+      </button>
+      <button onclick="stopTimer()" aria-label="Stop Timer">
+        <i class="fa fa-stop" aria-hidden="true"></i>
+      </button>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </div>
+  
+  <!-- Info modal popup -->
+  <div id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" tabindex="-1">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Close info popup">&times;</button>
+      <h2 id="info-modal-title">Mission Info</h2>
+      <img src="" alt="" id="info-modal-img" />
+    </div>
+  </div>
+
+  <div id="countdown-popup" role="alert" aria-live="assertive" aria-atomic="true" style="display:none;">
+    <span id="countdown-number"></span>
+  </div>
+  
+  <script src="script.js"></script>
+  <audio id="timeout-sound" src="beepwarning.mp3" preload="auto"></audio>
+  
+  <script>
+    // Handle info button clicks
+    const infoModal = document.getElementById('info-modal');
+    const infoModalImg = document.getElementById('info-modal-img');
+    const infoModalTitle = document.getElementById('info-modal-title');
+    const closeBtn = infoModal.querySelector('.close-btn');
+
+    document.querySelectorAll('.info-btn').forEach(button => {
+      button.addEventListener('click', e => {
+        e.stopPropagation();
+        // Get image src and alt from data attributes
+        const imgSrc = button.getAttribute('data-img');
+        const imgAlt = button.getAttribute('data-alt') || 'Mission info image';
+
+        // Set modal image and alt
+        infoModalImg.src = imgSrc;
+        infoModalImg.alt = imgAlt;
+        infoModalTitle.textContent = imgAlt;
+
+        // Show modal
+        infoModal.style.display = 'flex';
+
+        // Focus modal for accessibility
+        infoModal.focus();
+      });
+    });
+
+    // Close modal on close button click
+    closeBtn.addEventListener('click', () => {
+      infoModal.style.display = 'none';
+      infoModalImg.src = '';
+      infoModalImg.alt = '';
+    });
+
+    // Close modal when clicking outside modal content
+    infoModal.addEventListener('click', e => {
+      if (e.target === infoModal) {
+        infoModal.style.display = 'none';
+        infoModalImg.src = '';
+        infoModalImg.alt = '';
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && infoModal.style.display === 'flex') {
+        infoModal.style.display = 'none';
+        infoModalImg.src = '';
+        infoModalImg.alt = '';
+      }
+    });
+
+    // Prevent pointer-events blocking on info-btn inside disabled blocks (if any)
+    function enableInfoButtons() {
+      document.querySelectorAll('.point-block.disabled').forEach(block => {
+        block.querySelectorAll('.info-btn').forEach(infoBtn => {
+          infoBtn.style.pointerEvents = 'auto';
+        });
+      });
+    }
+    enableInfoButtons();
+  </script>
+</body>
+</html>
